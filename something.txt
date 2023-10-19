@@ -1,0 +1,798 @@
+	#1.Opencv installation and working with python
+import cv2
+from google.colab.patches import cv2_imshow
+
+# Load the image
+image_path = 'images.jpg'
+image = cv2.imread(image_path)
+
+# Check if the image was loaded successfully
+if image is not None:
+    # Display the image using cv2_imshow()
+    cv2_imshow(image)
+else:
+    print(f"Failed to load image: {image_path}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	#2.Basic image processing-loading images,cropping,resizing,thresholding,contour analysis,Blob detection
+import cv2
+from google.colab.patches import cv2_imshow
+
+# Load the image
+image_path = "/content/image.jpg"
+image = cv2.imread(image_path)
+
+# Check if the image was loaded successfully
+if image is None:
+    print(f"Failed to load image: {image_path}")
+    exit()
+
+# Display the original image
+print("Original image:")
+cv2_imshow(image)
+
+# Crop a region of interest (ROI) from the image
+x, y, w, h = 100, 100, 200, 200
+roi = image[y:y+h, x:x+w]
+print("\nCropping:")
+cv2_imshow(roi)
+
+# Resize the image
+resized_image = cv2.resize(image, (300, 300))
+print("\nResizing:")
+cv2_imshow(resized_image)
+
+# Convert the image to grayscale
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+print("\nGrayscaling:")
+cv2_imshow(gray_image)
+
+# Apply thresholding to the grayscale image
+_, thresholded_image = cv2.threshold(gray_image, 127, 255, cv2.THRESH_BINARY)
+print("\nThresholding:")
+cv2_imshow(thresholded_image)
+
+# Find contours in the thresholded image
+contours, _ = cv2.findContours(thresholded_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+# Draw contours on the original image
+contour_image = image.copy()
+cv2.drawContours(contour_image, contours, -1, (0, 255, 0), 2)
+print("\nContour analysis:")
+cv2_imshow(contour_image)
+
+# Perform blob detection on the thresholded image
+detector = cv2.SimpleBlobDetector_create()
+keypoints = detector.detect(thresholded_image)
+params=cv2.SimpleBlobDetector_Params()
+params.minArea=100
+
+# Draw blobs on the original image
+blob_image = image.copy()
+cv2.drawKeypoints(blob_image, keypoints, blob_image, (0, 0, 255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+print("\nBlob detection:")
+cv2_imshow(blob_image)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  #3.Image annotation-drawing lines,text,circle,rectangles,ellipse on images
+import cv2
+from google.colab.patches import cv2_imshow
+
+# Load the image
+image = cv2.imread('img.jpg')
+
+# Define the annotation parameters
+color = (255, 0, 200)  # Green color (BGR format)
+thickness = 2  # Line thickness
+
+# Draw a line
+start_point = (50, 50)
+end_point = (200,200)
+cv2.line(image, start_point, end_point, color, thickness)
+
+# Draw text
+text = 'Sample Text'
+org = (100, 100)
+font = cv2.FONT_HERSHEY_SIMPLEX
+font_scale = 1
+cv2.putText(image, text, org, font, font_scale, color, thickness, cv2.LINE_AA)
+
+# Draw a circle
+center_coordinates = (300, 300)
+radius = 50
+cv2.circle(image, center_coordinates, radius, color, thickness)
+
+# Draw a rectangle
+start_point = (200, 200)
+end_point = (600, 300)
+cv2.rectangle(image, start_point, end_point, color, thickness)
+
+# Draw an ellipse
+center_coordinates = (800, 250)
+axes_length = (100, 50)
+angle = 0
+start_angle = 0
+end_angle = 360
+cv2.ellipse(image, center_coordinates, axes_length, angle, start_angle, end_angle, color, thickness)
+
+# Display the annotated image
+cv2_imshow(image)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	#3.Image annotation-drawing lines,text,circle,rectangles,ellipse on images
+import cv2
+from google.colab.patches import cv2_imshow
+
+# Load the image
+image = cv2.imread('img.jpg')
+
+# Define the annotation parameters
+color = (255, 0, 200)  # Green color (BGR format)
+thickness = 2  # Line thickness
+
+# Draw a line
+start_point = (50, 50)
+end_point = (200,200)
+cv2.line(image, start_point, end_point, color, thickness)
+
+# Draw text
+text = 'Sample Text'
+org = (100, 100)
+font = cv2.FONT_HERSHEY_SIMPLEX
+font_scale = 1
+cv2.putText(image, text, org, font, font_scale, color, thickness, cv2.LINE_AA)
+
+# Draw a circle
+center_coordinates = (300, 300)
+radius = 50
+cv2.circle(image, center_coordinates, radius, color, thickness)
+
+# Draw a rectangle
+start_point = (200, 200)
+end_point = (600, 300)
+cv2.rectangle(image, start_point, end_point, color, thickness)
+
+# Draw an ellipse
+center_coordinates = (800, 250)
+axes_length = (100, 50)
+angle = 0
+start_angle = 0
+end_angle = 360
+cv2.ellipse(image, center_coordinates, axes_length, angle, start_angle, end_angle, color, thickness)
+
+# Display the annotated image
+cv2_imshow(image)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+`	#4.Image enhancement-understanding color spaces,color space conersion,hstogram equalization,convolution,image smoothing,gradients,edge detection
+import cv2
+import numpy as np
+from google.colab.patches import cv2_imshow
+
+# Load an image
+image = cv2.imread('house.jpg')
+
+# Convert image from BGR to grayscale
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Convert image from BGR to HSV
+hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+# Apply histogram equalization to enhance contrast
+equalized = cv2.equalizeHist(gray)
+
+# Apply Gaussian blur for image smoothing
+blurred = cv2.GaussianBlur(equalized, (5, 5), 0)
+
+# Calculate gradients using Sobel operators
+grad_x = cv2.Sobel(blurred, cv2.CV_64F, 1, 0, ksize=3)
+grad_y = cv2.Sobel(blurred, cv2.CV_64F, 0, 1, ksize=3)
+
+# Calculate magnitude and direction of gradients
+mag = np.sqrt(grad_x**2 + grad_y**2)
+angle = np.arctan2(grad_y, grad_x)
+
+# Apply Canny edge detection
+edges = cv2.Canny(blurred, 100, 200)
+
+# Display the results
+print("Original image")
+cv2_imshow(image)
+print("\nConversion of BGR to GRAY")
+cv2_imshow(gray)
+print("\nConversion of BGR to HSV")
+cv2_imshow(hsv)
+print("\nHistogram equalization")
+cv2_imshow(equalized)
+print("\nSmoothing")
+cv2_imshow(blurred)
+print("\nGradient")
+cv2_imshow(mag.astype(np.uint8))
+print("\nEdge detection")
+cv2_imshow(edges)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	#5 Image Features and Image Alignment – Image transforms – Fourier, Hough, Extract ORB Image features, Feature matching, cloning, Feature matching based image alignment
+import cv2
+import numpy as np
+from google.colab.patches import cv2_imshow
+
+def extract_orb_features(img):
+    # Initialize ORB detector
+    orb = cv2.ORB_create()
+
+    # Find keypoints and descriptors in the image
+    keypoints, descriptors = orb.detectAndCompute(img, None)
+
+    # Draw keypoints on the image
+    img_with_keypoints = cv2.drawKeypoints(img, keypoints, None, (0, 255, 0), flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+
+    return img_with_keypoints
+
+def feature_matching(img1, img2):
+    # Initialize ORB detector
+    orb = cv2.ORB_create()
+
+    # Find keypoints and descriptors in the images
+    keypoints1, descriptors1 = orb.detectAndCompute(img1, None)
+    keypoints2, descriptors2 = orb.detectAndCompute(img2, None)
+
+    # Create a BFMatcher (Brute-Force Matcher)
+    bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+
+    # Match the keypoints using the BFMatcher
+    matches = bf.match(descriptors1, descriptors2)
+
+    # Draw matches on the images
+    matched_img = cv2.drawMatches(img1, keypoints1, img2, keypoints2, matches, None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+
+    return matched_img
+
+def image_cloning(img1, img2, mask):
+    # Clone a region of interest from img2 to img1 using mask
+    cloned_img = cv2.seamlessClone(img2, img1, mask, (150, 150), cv2.NORMAL_CLONE)
+
+    return cloned_img
+
+def align_images(img1, img2):
+    # Initialize ORB detector
+    orb = cv2.ORB_create()
+
+    # Find keypoints and descriptors in the images
+    keypoints1, descriptors1 = orb.detectAndCompute(img1, None)
+    keypoints2, descriptors2 = orb.detectAndCompute(img2, None)
+
+    # Create a BFMatcher (Brute-Force Matcher)
+    bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+
+    # Match the keypoints using the BFMatcher
+    matches = bf.match(descriptors1, descriptors2)
+
+    # Sort the matches based on distance (lower is better)
+    matches = sorted(matches, key=lambda x: x.distance)
+
+    # Use the top 'n' matches for image alignment
+    n = 30
+    good_matches = matches[:n]
+
+    # Extract corresponding points from the matches
+    src_pts = np.float32([keypoints1[m.queryIdx].pt for m in good_matches]).reshape(-1, 1, 2)
+    dst_pts = np.float32([keypoints2[m.trainIdx].pt for m in good_matches]).reshape(-1, 1, 2)
+
+    # Find the perspective transformation matrix
+    M, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, 5.0)
+
+    # Use the transformation matrix to align the images
+    aligned_img = cv2.warpPerspective(img1, M, (img2.shape[1], img2.shape[0]), flags=cv2.INTER_LINEAR)
+
+    return aligned_img
+
+def resize_image(img, target_width, target_height):
+    return cv2.resize(img, (target_width, target_height))
+
+if __name__ == "__main__":
+    # Load the images
+    image1 = cv2.imread("face1.JPG", cv2.IMREAD_COLOR)
+    image2 = cv2.imread("face2.JPG", cv2.IMREAD_COLOR)
+
+    # Resize the images to the same size
+    image2 = resize_image(image2, image1.shape[1], image1.shape[0])
+    print("Original images")
+    cv2_imshow(cv2.imread("face1.JPG"))
+    cv2_imshow(cv2.imread("face2.JPG"))
+    try:
+        # Extract ORB features
+        print("Image with ORB Keypoints")
+        img_with_keypoints1 = extract_orb_features(image1)
+        img_with_keypoints2 = extract_orb_features(image2)
+        cv2_imshow(img_with_keypoints1)
+        cv2_imshow(img_with_keypoints2)
+
+        # Feature matching
+        print("\n\nFeature Matching")
+        matched_image = feature_matching(image1, image2)
+        cv2_imshow(matched_image)
+
+        # Cloning
+        print("\n\nCloning")
+        mask = np.zeros(image1.shape[:2], dtype=np.uint8)
+        cv2.circle(mask, (150, 150), 100, (255, 255, 255), -1)
+        cloned_image = image_cloning(image1, image2, mask)
+        cv2_imshow(cloned_image)
+
+        # Image alignment
+        aligned_image = align_images(image1, image2)
+        if aligned_image is not None:
+            print("\n\nImage Alignment")
+            cv2_imshow(aligned_image)
+
+        else:
+            print("Image alignment was not successful.")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	# 6 Image segmentation using grabcut
+import numpy as np
+import argparse
+import time
+import cv2
+import os
+from google.colab.patches import cv2_imshow
+
+# Define the argument values directly
+args = {
+    "image": "/content/bottle.jpg",
+    "iter": 10
+}
+
+# Load the input image
+image = cv2.imread(args["image"])
+
+# Create a mask and initialize the rectangle for GrabCut
+mask = np.zeros(image.shape[:2], dtype="uint8")
+rect = (50, 5, 250, 350)  # (x, y, width, height) coordinates of the rectangle
+
+# Allocate memory for two arrays that the GrabCut algorithm internally uses
+fgModel = np.zeros((1, 65), dtype="float")
+bgModel = np.zeros((1, 65), dtype="float")
+
+# Apply GrabCut using the bounding box segmentation method
+start = time.time()
+cv2.grabCut(image, mask, rect, bgModel, fgModel, args["iter"], mode=cv2.GC_INIT_WITH_RECT)
+end = time.time()
+print("[INFO] applying GrabCut took {:.2f} seconds".format(end - start))
+
+# The output mask has four possible output values: 0 (background), 1 (foreground),
+# 2 (probable background), 3 (probable foreground).
+# We'll set all definite background and probable background pixels to 0
+# while definite foreground and probable foreground pixels are set to 1
+outputMask = np.where((mask == cv2.GC_BGD) | (mask == cv2.GC_PR_BGD), 0, 1)
+
+# Scale the mask from the range [0, 1] to [0, 255]
+outputMask = (outputMask * 255).astype("uint8")
+
+# Apply a bitwise AND to the image using our mask generated by GrabCut
+# to generate our final output image
+output = cv2.bitwise_and(image, image, mask=outputMask)
+
+# Show the input image followed by the mask and output generated by GrabCut
+print("Original image:")
+cv2_imshow( image)
+print("\nMask image:")
+cv2_imshow( outputMask)
+print("\nOutput image:")
+cv2_imshow(output)
+# cv2_waitKey(0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	#EX NO: 7	CAMERA CALIBRATION WITH CIRCULAR GRID
+import cv2
+import numpy as np
+from google.colab.patches import cv2_imshow
+num_rows = 6
+num_cols = 9
+input_image_path = '/content/circle.jpeg'
+image = cv2.imread(input_image_path)
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+grid_size = 1.0  # Size of each square in your calibration grid (e.g., 1 inch)
+objp = np.zeros((num_rows * num_cols, 3), np.float32)
+objp[:, :2] = np.mgrid[0:num_cols, 0:num_rows].T.reshape(-1, 2) * grid_size
+ret, corners = cv2.findCirclesGrid(
+    gray, (num_cols, num_rows), None, cv2.CALIB_CB_SYMMETRIC_GRID
+)
+if ret:
+    obj_points = [objp]
+    img_points = [corners]
+    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(obj_points, img_points, gray.shape[::-1], None, None)
+    calibration_data = {
+        "camera_matrix": mtx,
+        "distortion_coefficients": dist,
+    }
+    np.save("camera_calibration.npy", calibration_data)
+    print("Camera Matrix:")
+    print(mtx)
+    print("\nDistortion Coefficients:")
+    print(dist)
+    for corner in corners:
+        cv2.circle(image, (int(corner[0][0]), int(corner[0][1])), 3, (0, 0, 255), -1)
+    print("Calibration Image")
+    cv2_imshow(image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+else:
+    print("Corners not found. Calibration failed.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	#8 Pose Estimation
+import cv2
+import mediapipe as mp
+from google.colab.patches import cv2_imshow
+
+# Initialize Pose estimator
+mp_drawing = mp.solutions.drawing_utils
+mp_pose = mp.solutions.pose
+
+pose = mp_pose.Pose(
+    min_detection_confidence=0.5,
+    min_tracking_confidence=0.5)
+
+# Read an image
+image = cv2.imread('sitting.jpg')
+
+# Convert the image to RGB format
+RGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# Process the RGB image to get the result
+results = pose.process(RGB)
+
+# Draw detected skeleton on the image
+image_with_landmarks = RGB.copy()  # Create a copy to avoid modifying the original image
+mp_drawing.draw_landmarks(
+    image_with_landmarks, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+
+# Show the final output image
+cv2_imshow( cv2.cvtColor(image_with_landmarks, cv2.COLOR_RGB2BGR))
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	#9 3D Reconstruction-creating depth map from stereo images
+import numpy as np
+import cv2 as cv
+from matplotlib import pyplot as plt
+left_image = cv2.imread('left.jpg', cv2.IMREAD_GRAYSCALE)
+height, width = left_image.shape
+right_image = cv2.imread('right.jpg', cv2.IMREAD_GRAYSCALE)
+right_image = cv2.resize(right_image, (width, height))
+stereo = cv.StereoBM.create(numDisparities=16, blockSize=15)
+disparity = stereo.compute(left_image,right_image)
+plt.imshow(disparity,'gray')
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#10
+import numpy as np
+import cv2
+import os
+from google.colab.patches import cv2_imshow
+
+# Create a directory to store output frames
+output_directory = '/content/output_frames'
+os.makedirs(output_directory, exist_ok=True)
+
+cap = cv2.VideoCapture('car.mp4')  # Replace with your video file path
+
+# Initialize variables
+frame = None
+
+while frame is None:
+    ret, frame = cap.read()
+
+# Display the first frame
+cv2_imshow(frame)
+
+# Setup initial location of the window
+r, h, c, w = 127, 50, 193, 75  # Simply hardcoded values
+track_window = (c, r, w, h)
+
+# Set up the ROI for tracking
+roi = frame[r:r + h, c:c + w]
+cv2_imshow(roi)
+
+hsv_roi = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+mask = cv2.inRange(roi, np.array((135., 135., 135.)), np.array((360., 255., 255.)))
+
+roi_hist = cv2.calcHist([roi], [0], mask, [180], [0, 180])
+
+cv2.normalize(roi_hist, roi_hist, 0, 255, cv2.NORM_MINMAX)
+
+# Setup the termination criteria, either 10 iterations or move by at least 1 pt
+term_crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)
+
+frame_count = 0
+
+while True:
+    ret, frame = cap.read()
+    if ret:
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        dst = cv2.calcBackProject([hsv], [0], roi_hist, [0, 180], 1)
+
+        # Apply meanshift to get the new location
+        ret, track_window = cv2.meanShift(dst, track_window, term_crit)
+
+        # Draw it on the image
+        x, y, w, h = track_window
+        img2 = cv2.rectangle(frame, (x, y), (x + w, y + h), 255, 2)
+
+        # Display the frame
+        cv2_imshow(img2)
+
+        # Save the frame to the output directory
+        frame_filename = os.path.join(output_directory, f'frame_{frame_count:04d}.jpg')
+        cv2.imwrite(frame_filename, img2)
+
+        frame_count += 1
+
+        k = cv2.waitKey(30) & 0xFF
+        if k == 27:
+            break
+    else:
+        break
+
+# Release resources
+cv2.destroyAllWindows()
+cap.release()
+
+# Display the path to the output directory
+print(f"Output frames saved to: {output_directory}")
